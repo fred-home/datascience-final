@@ -33,6 +33,9 @@ features = ['Singapore', 2019, 9]
 # Initiate the app; must include '__name__' since it is used to locate root of project
 app = dash.Dash(
     __name__,
+    meta_tags=[
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"}
+    ],
     external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
 server = app.server
@@ -89,33 +92,37 @@ app.layout = dbc.Container(
         html.Hr(),
         dbc.Row(
             [
-                dbc.Col(controls, md=4),
+                dbc.Col(controls, md=3),
                 dbc.Col(
                     [
                         dbc.Row(
-                            dcc.Graph(id='figure-1'),
+                            dbc.Col(
+                                dcc.Graph(id='figure-1'),
+                                md=12),
                         ),
                         dbc.Row([
+                                dbc.Col(md=3),
                                 html.H5('',
                                         id='title-table',
-                                        className='col-md-5',
+                                        className='col-md-5'
                                         ),
-                                dbc.Col(className='col-md-3'),
+                                dbc.Col(md=4),
                                 ],
                                 className='justify-content-center text-center',
                                 ),
                         dbc.Row(
                             [
+                                dbc.Col(md=3),
                                 html.Div(
                                     id='div-table',
                                     className='col-md-5',
                                 ),
-                                dbc.Col(className='col-md-3'),
+                                dbc.Col(md=4),
                             ],
                             className='justify-content-center text-center',
                         ),
                     ],
-                    md=8),
+                    md=9),
             ],
             align='center',
         ),
@@ -209,6 +216,8 @@ def check_sentiment(park, year, month):
             xaxis=dict(title='Rating'),
             yaxis=dict(title='Total Reviews'),
             title=dict(text=the_title),
+            title_x=0.45,
+            title_y=0.85,
             legend=dict(title='Sentiment')
         )
 
@@ -217,6 +226,8 @@ def check_sentiment(park, year, month):
         return ["inadequate inputs", "inadequate inputs", "inadequate inputs...\n" + str(ex)]
 
 # From Plotly Getting Started
+
+
 def generate_table(dataframe, max_rows=10):
     mod_df = dataframe.copy().reset_index()
     cell_style = {'padding': '0.25rem 0.5rem'}
@@ -240,7 +251,7 @@ def generate_table(dataframe, max_rows=10):
                             else html.Td(mod_df.iloc[i][col], style=cell_style)
                             for col in mod_df.columns
                         ]) for i in (np.arange(min(len(mod_df), max_rows) - 1, -1, -1))
-                        # rows list is in reverse order to get in ascending order in final table
+                    # rows list is in reverse order to get in ascending order in final table
                 ])
         ],
         className='table small',

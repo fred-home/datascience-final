@@ -190,8 +190,8 @@ def check_sentiment(park, year, month):
         )
 
         return [fig, generate_table(summary_df)]
-    except Exception as e:
-        return "inadequate inputs", "inadequate inputs... " + e.message
+    except Exception as ex:
+        return "inadequate inputs", "inadequate inputs... " + ex
 
 # From Plotly Getting Started
 

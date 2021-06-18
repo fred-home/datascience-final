@@ -143,12 +143,11 @@ app.layout = dbc.Container(
      Input('month-drop', 'value'),
      ])
 def check_sentiment(park, year, month):
-    error_msg = 'inadequate inputs'
+
     try:
         # Must convert both Year and Month to integers
         year = int(year)
         month = int(month)
-        x=year/0
 
         df_park_month = df_analyzed_reviews[(df_analyzed_reviews['branch'] == park) &
                                             (df_analyzed_reviews['date'].dt.year == year) &

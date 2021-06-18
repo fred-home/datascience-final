@@ -94,6 +94,14 @@ app.layout = dbc.Container(
                         dbc.Row(
                             dcc.Graph(id='figure-1'),
                         ),
+                        dbc.Row([
+                                html.H4('Sentiment DataFrame',
+                                        className='col-md-5',
+                                        ),
+                                dbc.Col(className='col-md-3'),
+                                ],
+                                className='justify-content-center text-center',
+                                ),
                         dbc.Row(
                             [
                                 html.Div(
@@ -181,7 +189,7 @@ def check_sentiment(park, year, month):
 
         month_name = calendar.month_name[month]
         the_title = f'Universal Studios {park} Review Sentiment {month_name} {year}'
-    
+
         fig = go.Figure(data)
 
         fig.update_layout(
@@ -196,29 +204,32 @@ def check_sentiment(park, year, month):
         return "inadequate inputs", "inadequate inputs... " + str(ex)
 
 # From Plotly Getting Started
-
-
 def generate_table(dataframe, max_rows=10):
     mod_df = dataframe.copy().reset_index()
     cell_style = {'padding': '0.25rem 0.5rem'}
-    return html.Table([
-        html.Thead(
-            html.Tr([
-                html.Th('', style=cell_style)
-                if col == 'index'
-                else html.Th(col, style=cell_style)
-                for col in mod_df.columns
-            ])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Th(mod_df.iloc[i][col], style=cell_style)
-                    if col == 'index'
-                    else html.Td(mod_df.iloc[i][col], style=cell_style)
-                    for col in mod_df.columns
-                    ]) for i in range(min(len(mod_df), max_rows))
-        ])
-    ],
+    return html.Table(
+        [
+            html.Thead(
+                html.Tr(
+                    [
+                        html.Th('', style=cell_style)
+                        if col == 'index'
+                        else html.Th(col, style=cell_style)
+                        for col in mod_df.columns
+                    ])
+            ),
+            html.Tbody(
+                [
+                    html.Tr(
+                        [
+                            html.Th(mod_df.iloc[i][col], style=cell_style)
+                            if col == 'index'
+                            else html.Td(mod_df.iloc[i][col], style=cell_style)
+                            for col in mod_df.columns
+                        ]) for i in (np.arange(min(len(mod_df), max_rows) - 1, -1, -1))
+                        # rows list is in reverse order to get in ascending order in final table
+                ])
+        ],
         className='table small',
     )
 

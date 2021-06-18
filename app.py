@@ -148,6 +148,7 @@ def check_sentiment(park, year, month):
         # Must convert both Year and Month to integers
         year = int(year)
         month = int(month)
+        x=year/0
 
         df_park_month = df_analyzed_reviews[(df_analyzed_reviews['branch'] == park) &
                                             (df_analyzed_reviews['date'].dt.year == year) &
@@ -191,7 +192,7 @@ def check_sentiment(park, year, month):
 
         return [fig, generate_table(summary_df)]
     except Exception as ex:
-        return "inadequate inputs", "inadequate inputs... " + ex
+        return "inadequate inputs", "inadequate inputs... " + str(ex)
 
 # From Plotly Getting Started
 

@@ -94,7 +94,7 @@ app.layout = dbc.Container(
         html.Hr(),
         html.P('I used Natural Language Processing to analyze the text from reviews ' +
                'for Universal Studio Parks and then compare the sentiment of the review ' +
-               'text to the actual rating the user gave in the review.'),
+               'text to the actual rating given to the review.'),
         dbc.Row(
             [
                 dbc.Col(controls, md=3),

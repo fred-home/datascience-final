@@ -143,6 +143,7 @@ app.layout = dbc.Container(
      Input('month-drop', 'value'),
      ])
 def check_sentiment(park, year, month):
+    error_msg = 'inadequate inputs'
     try:
         # Must convert both Year and Month to integers
         year = int(year)
@@ -189,8 +190,8 @@ def check_sentiment(park, year, month):
         )
 
         return [fig, generate_table(summary_df)]
-    except:
-        return "inadequate inputs", "inadequate inputs"
+    except Exception as e:
+        return "inadequate inputs", "inadequate inputs... " + e.message
 
 # From Plotly Getting Started
 

@@ -12,7 +12,7 @@ import plotly.express as px
 from dash.dependencies import Input, Output, State
 
 ########### Define your variables ######
-myheading1 = 'Universal Studios Reviews - Sentiment Analysis'
+myheading1 = 'Sentiment Analysis'
 tabtitle = 'Sentiment Analysis'
 githublink = 'https://github.com/fred-home/datascience-final'
 notebookurl = 'https://github.com/fred-home/datascience-final/blob/master/analysis/final-project.ipynb'
@@ -221,7 +221,7 @@ def check_sentiment(park, year, month):
             )
 
         month_name = calendar.month_name[month]
-        the_title = f'Universal Studios {park} Review Sentiment {month_name} {year}'
+        the_title = f'{park} - Review Sentiment - {month_name} {year}'
         table_title = f'{park} - {month_name} {year}'
 
         fig = go.Figure(data)
@@ -230,8 +230,8 @@ def check_sentiment(park, year, month):
             xaxis=dict(title='Rating'),
             yaxis=dict(title='Total Reviews'),
             title=dict(text=the_title),
-            title_x=0.45,       # shift title to the right to be closer to center
-            title_y=1.0,       # Move plot title to be closer to top
+            title_x=0.45,      # shift title to the right to be closer to center
+            title_y=1.00,      # Move plot title to be closer to top
             # shift legent down a small amount to make space for modebar
             legend=dict(title='Sentiment', yanchor='top', y=0.90),
             # mode: Compare data on hover (shows tags for all values at selected x position)

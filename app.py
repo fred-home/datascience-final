@@ -49,7 +49,7 @@ controls = dbc.Card(
         html.P('Change selections below to adjust the data used for plot.'),
         dbc.FormGroup(
             [
-                dbc.Label('Universal Studios Park'),
+                dbc.Label('Park'),
                 dcc.Dropdown(
                     id='park-drop',
                     options=[

@@ -28,7 +28,7 @@ df_analyzed_reviews['date'] = pd.to_datetime(df_analyzed_reviews['date'])
 #years = np.sort(years).tolist()
 
 # Resatrict years to 2012-2020 since missing data from some parks before 2012
-years = np.arange(2012, 2020)
+years = np.arange(2012, 2021)
 
 # Initiate the app
 app = dash.Dash(
@@ -71,7 +71,7 @@ controls = dbc.Card(
                 dcc.Dropdown(
                     id="month-drop",
                     options=[
-                        {"label": month, "value": month} for month in range(1, 12)
+                        {"label": month, "value": month} for month in range(1, 13)
                     ],
                     value="6",
                 ),

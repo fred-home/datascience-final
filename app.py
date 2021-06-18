@@ -179,13 +179,15 @@ def check_sentiment(park, year, month):
                 )
             )
 
+        month_name = calendar.month_name[month]
+        the_title = f'Universal Studios {park} Review Sentiment {month_name} {year}'
+    
         fig = go.Figure(data)
 
         fig.update_layout(
             xaxis=dict(tickformat='0.0', title='Rating'),
             yaxis=dict(title='Total Reviews'),
-            title=dict(text='Universal Studios ' + park + ' Review Sentiment ' +
-                       calendar.month_name[month] + ' ' + str(year)),
+            title=dict(text=the_title),
             legend=dict(title='Sentiment')
         )
 

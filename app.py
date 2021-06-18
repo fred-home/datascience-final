@@ -14,23 +14,23 @@ from dash.dependencies import Input, Output, State
 ########### Define your variables ######
 myheading1 = 'Universal Studios Reviews - Sentiment Analysis'
 tabtitle = 'Sentiment Analysis'
-sourceurl = 'https://datahack.analyticsvidhya.com/contest/practice-problem-loan-prediction-iii/'
 githublink = 'https://github.com/fred-home/datascience-final'
+notebookurl = 'https://github.com/fred-home/datascience-final/blob/master/analysis/final-project.ipynb'
 
-########### load the processed data into Pandas DataFrame ######
-df_analyzed_reviews = pd.read_csv('data/df_analyzed_reviews2.csv')
+# Load the processed data into Pandas DataFrame
+df_analyzed_reviews = pd.read_csv('data/df_analyzed_reviews.csv')
 
-# Data prep
+# Data prep must be performed after loading from CVS file
 df_analyzed_reviews['date'] = pd.to_datetime(df_analyzed_reviews['date'])
 
-# Get list if years from the dataframe
-#years = df_analyzed_reviews['date'].dt.year.unique()
-#years = np.sort(years).tolist()
-
-# Resatrict years to 2012-2020 since missing data from some parks before 2012
+# Create a list of years between 2012-2020 since there no data for some parks before 2012
 years = np.arange(2012, 2021)
+parks = ['Florida', 'Japan', 'Singapore']
 
-# Initiate the app
+# Set initial selection of features to display when page loads
+features = ['Singapore', 2019, 9]
+
+# Initiate the app; must include '__name__' since it is used to locate root of project
 app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP]
@@ -44,37 +44,37 @@ controls = dbc.Card(
         html.H2('Features'),
         dbc.FormGroup(
             [
-                dbc.Label("Universal Studios Park"),
+                dbc.Label('Universal Studios Park'),
                 dcc.Dropdown(
-                    id="park-drop",
+                    id='park-drop',
                     options=[
-                        {"label": park, "value": park} for park in ['Florida', 'Japan', 'Singapore']
+                        {'label': park, 'value': park} for park in parks
                     ],
-                    value="Florida",
+                    value=features[0],
                 ),
             ]
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Year"),
+                dbc.Label('Year'),
                 dcc.Dropdown(
-                    id="year-drop",
+                    id='year-drop',
                     options=[
-                        {"label": year, "value": year} for year in years
+                        {'label': year, 'value': year} for year in years
                     ],
-                    value="2019",
+                    value=features[1],
                 ),
             ]
         ),
         dbc.FormGroup(
             [
-                dbc.Label("Month"),
+                dbc.Label('Month'),
                 dcc.Dropdown(
-                    id="month-drop",
+                    id='month-drop',
                     options=[
-                        {"label": month, "value": month} for month in range(1, 13)
+                        {'label': month, 'value': month} for month in range(1, 13)
                     ],
-                    value="6",
+                    value=features[2],
                 ),
             ]
         ),
@@ -85,7 +85,7 @@ controls = dbc.Card(
 # Set up the layout
 app.layout = dbc.Container(
     [
-        html.H1(myheading1),
+        html.H1(myheading1, className='text-center'),
         html.Hr(),
         dbc.Row(
             [
@@ -96,7 +96,8 @@ app.layout = dbc.Container(
                             dcc.Graph(id='figure-1'),
                         ),
                         dbc.Row([
-                                html.H4('Sentiment DataFrame',
+                                html.H5('',
+                                        id='title-table',
                                         className='col-md-5',
                                         ),
                                 dbc.Col(className='col-md-3'),
@@ -116,7 +117,7 @@ app.layout = dbc.Container(
                     ],
                     md=8),
             ],
-            align="center",
+            align='center',
         ),
         html.Footer(
             [
@@ -124,9 +125,18 @@ app.layout = dbc.Container(
                     [
                         html.Small([
                             html.A(
-                                'Jupyter Notebook on GitHub',
-                                href='https://github.com/fred-home/datascience-final/blob/master/analysis/final-project.ipynb',
+                                'Jupyter Notebook',
+                                href=notebookurl,
                             ),
+                            ' on GitHub',
+                        ]),
+                        html.Small([
+                            ', ',
+                            html.A(
+                                'source code for project',
+                                href=githublink,
+                            ),
+                            ' on GitHub',
                         ]),
                     ],
                     className='fw-lighter p-2',
@@ -145,6 +155,7 @@ app.layout = dbc.Container(
 @app.callback(
     [
         Output('figure-1', 'figure'),
+        Output(component_id='title-table', component_property='children'),
         Output(component_id='div-table', component_property='children'),
     ],
     [Input('park-drop', 'value'),
@@ -190,19 +201,20 @@ def check_sentiment(park, year, month):
 
         month_name = calendar.month_name[month]
         the_title = f'Universal Studios {park} Review Sentiment {month_name} {year}'
+        table_title = f'{park} - {month_name} {year}'
 
         fig = go.Figure(data)
 
         fig.update_layout(
-            xaxis=dict(tickformat='0.0', title='Rating'),
+            xaxis=dict(title='Rating'),
             yaxis=dict(title='Total Reviews'),
             title=dict(text=the_title),
             legend=dict(title='Sentiment')
         )
 
-        return [fig, generate_table(summary_df)]
+        return [fig, table_title, generate_table(summary_df)]
     except Exception as ex:
-        return "inadequate inputs", "inadequate inputs... " + str(ex)
+        return ["inadequate inputs", "inadequate inputs", "inadequate inputs...\n" + str(ex)]
 
 # From Plotly Getting Started
 def generate_table(dataframe, max_rows=10):

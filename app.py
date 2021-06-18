@@ -31,6 +31,7 @@ parks = ['Florida', 'Japan', 'Singapore']
 features = ['Singapore', 2019, 9]
 
 # Initiate the app; must include '__name__' since it is used to locate root of project
+# add the meta tagas to improve repsonsiveness on mobile devices
 app = dash.Dash(
     __name__,
     meta_tags=[
@@ -44,7 +45,8 @@ app.title = tabtitle
 # Controls to place on page for feature selection by user
 controls = dbc.Card(
     [
-        html.H2('Features'),
+        html.H4('Features', className='text-center'),
+        html.P('Change selections below to adjust the data used for plot.'),
         dbc.FormGroup(
             [
                 dbc.Label('Universal Studios Park'),
@@ -90,6 +92,9 @@ app.layout = dbc.Container(
     [
         html.H1(myheading1, className='text-center'),
         html.Hr(),
+        html.P('I used Natural Language Processing to analyze the text from reviews ' +
+               'for Universal Studio Parks and then compare the sentiment of the review ' +
+               'text to the actual rating the user gave in the review.'),
         dbc.Row(
             [
                 dbc.Col(controls, md=3),
@@ -97,7 +102,16 @@ app.layout = dbc.Container(
                     [
                         dbc.Row(
                             dbc.Col(
-                                dcc.Graph(id='figure-1'),
+                                dcc.Graph(
+                                    id='figure-1',
+                                    config={
+                                        'modeBarButtonsToRemove': [
+                                            'lasso2d', 'pan2d', 'select2d',
+                                            'sendDataToCloud', 'toggleSpikelines', 'toImage',
+                                            'autoScale2d', 'resetScale2d',
+                                            'zoom2d', 'zoomIn2d', 'zoomOut2d'],
+                                    },
+                                ),
                                 md=12),
                         ),
                         dbc.Row([
@@ -159,7 +173,7 @@ app.layout = dbc.Container(
 # Define Callback
 
 
-@app.callback(
+@ app.callback(
     [
         Output('figure-1', 'figure'),
         Output(component_id='title-table', component_property='children'),
@@ -172,7 +186,7 @@ app.layout = dbc.Container(
 def check_sentiment(park, year, month):
 
     try:
-        # Must convert both Year and Month to integers
+        # Year and Month parameter values are strings, convert to integers
         year = int(year)
         month = int(month)
 
@@ -216,9 +230,14 @@ def check_sentiment(park, year, month):
             xaxis=dict(title='Rating'),
             yaxis=dict(title='Total Reviews'),
             title=dict(text=the_title),
-            title_x=0.45,
-            title_y=0.85,
-            legend=dict(title='Sentiment')
+            title_x=0.45,       # shift title to the right to be closer to center
+            title_y=1.0,       # Move plot title to be closer to top
+            # shift legent down a small amount to make space for modebar
+            legend=dict(title='Sentiment', yanchor='top', y=0.90),
+            # mode: Compare data on hover (shows tags for all values at selected x position)
+            hovermode='x',
+            # reduce space around plot (top, botton, left, right
+            margin=dict(t=20, b=60, l=10, r=10),
         )
 
         return [fig, table_title, generate_table(summary_df)]

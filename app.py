@@ -32,12 +32,13 @@ years = np.arange(2012, 2021)
 
 # Initiate the app
 app = dash.Dash(
+    __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP]
 )
 server = app.server
 app.title = tabtitle
 
-# Controls to place on page
+# Controls to place on page for feature selection by user
 controls = dbc.Card(
     [
         html.H2('Features'),

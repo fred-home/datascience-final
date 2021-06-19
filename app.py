@@ -232,7 +232,7 @@ def check_sentiment(park, year, month):
             title=dict(text=the_title),
             title_x=0.45,      # shift title to the right to be closer to center
             title_y=1.00,      # Move plot title to be closer to top
-            # shift legent down a small amount to make space for modebar
+            # shift legend down a small amount to make space for modebar
             legend=dict(title='Sentiment', yanchor='top', y=0.90),
             # mode: Compare data on hover (shows tags for all values at selected x position)
             hovermode='x',

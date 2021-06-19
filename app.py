@@ -231,13 +231,13 @@ def check_sentiment(park, year, month):
             yaxis=dict(title='Total Reviews'),
             title=dict(text=the_title),
             title_x=0.45,      # shift title to the right to be closer to center
-            title_y=1.00,      # Move plot title to be closer to top
+            title_y=0.99,      # Move plot title to be closer to top
             # shift legend down a small amount to make space for modebar
             legend=dict(title='Sentiment', yanchor='top', y=0.90),
             # mode: Compare data on hover (shows tags for all values at selected x position)
             hovermode='x',
-            # reduce space around plot (top, botton, left, right
-            margin=dict(t=20, b=60, l=10, r=10),
+            # reduce space around plot (top, botton, left, right) to use all space for the plot
+            margin=dict(t=25, b=60, l=10, r=10),
         )
 
         return [fig, table_title, generate_table(summary_df)]

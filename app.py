@@ -195,7 +195,7 @@ def check_sentiment(park, year, month):
                                             (df_analyzed_reviews['date'].dt.month == month)].copy()
 
         summary_cols = ['neutral', 'negative', 'positive']
-        summary_index = [5, 4, 3, 2, 1]
+        summary_index = [1, 2, 3, 4, 5]
 
         summary_df = pd.DataFrame(columns=summary_cols,
                                   index=summary_index)
@@ -255,6 +255,7 @@ def generate_table(dataframe, max_rows=10):
             html.Thead(
                 html.Tr(
                     [
+                        # no heading for the index column
                         html.Th('', style=cell_style)
                         if col == 'index'
                         else html.Th(col, style=cell_style)
@@ -269,8 +270,7 @@ def generate_table(dataframe, max_rows=10):
                             if col == 'index'
                             else html.Td(mod_df.iloc[i][col], style=cell_style)
                             for col in mod_df.columns
-                        ]) for i in (np.arange(min(len(mod_df), max_rows) - 1, -1, -1))
-                    # rows list is in reverse order to get in ascending order in final table
+                        ]) for i in (range(min(len(mod_df), max_rows)))
                 ])
         ],
         className='table small',

@@ -14,8 +14,9 @@ from dash.dependencies import Input, Output, State
 ########### Define your variables ######
 myheading1 = 'Sentiment Analysis'
 tabtitle = 'Sentiment Analysis'
-githublink = 'https://github.com/fred-home/datascience-final'
-notebookurl = 'https://github.com/fred-home/datascience-final/blob/master/analysis/final-project.ipynb'
+github_link = 'https://github.com/fred-home/datascience-final'
+kaggle_link = 'https://www.kaggle.com/dwiknrd/reviewuniversalstudio'
+notebook_link = 'https://github.com/fred-home/datascience-final/blob/master/analysis/final-project.ipynb'
 
 # Load the processed data into Pandas DataFrame
 df_analyzed_reviews = pd.read_csv('data/df_analyzed_reviews.csv')
@@ -116,9 +117,9 @@ app.layout = dbc.Container(
                         ),
                         dbc.Row([
                                 dbc.Col(md=3),
-                                html.H5('',
-                                        id='title-table',
-                                        className='col-md-5'
+                                dbc.Col(html.H5('',
+                                        id='title-table',),
+                                        md=5,
                                         ),
                                 dbc.Col(md=4),
                                 ],
@@ -127,9 +128,9 @@ app.layout = dbc.Container(
                         dbc.Row(
                             [
                                 dbc.Col(md=3),
-                                html.Div(
-                                    id='div-table',
-                                    className='col-md-5',
+                                dbc.Col(html.Div(
+                                    id='div-table',),
+                                    md=5,
                                 ),
                                 dbc.Col(md=4),
                             ],
@@ -142,23 +143,15 @@ app.layout = dbc.Container(
         ),
         html.Footer(
             [
-                html.Div(
+                dbc.Row(
                     [
-                        html.Small([
-                            html.A(
-                                'Jupyter Notebook',
-                                href=notebookurl,
-                            ),
-                            ' on GitHub',
-                        ]),
-                        html.Small([
-                            ', ',
-                            html.A(
-                                'source code for project',
-                                href=githublink,
-                            ),
-                            ' on GitHub',
-                        ]),
+                        dbc.Col('', md=2),
+                        dbc.Col(html.Small(
+                            html.A('Jupyter Notebook', href=notebook_link, target='_blank'))),
+                        dbc.Col(html.Small(
+                            html.A('GitHub repo Link', href=github_link, target='_blank'))),
+                        dbc.Col(html.Small(
+                            html.A('Kaggle Dataset', href=kaggle_link, target='_blank'))),
                     ],
                     className='fw-lighter p-2',
                 ),

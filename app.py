@@ -24,12 +24,12 @@ df_analyzed_reviews = pd.read_csv('data/df_analyzed_reviews.csv')
 # Data prep must be performed after loading from CVS file
 df_analyzed_reviews['date'] = pd.to_datetime(df_analyzed_reviews['date'])
 
-# Create a list of years between 2012-2020 since there no data for some parks before 2012
+# Create a list of years between 2012-2020 since there very little data before 2012
 years = np.arange(2012, 2021)
 parks = ['Florida', 'Japan', 'Singapore']
 
 # Set initial selection of features to display when page loads
-features = ['Singapore', 2019, 9]
+features = ['Singapore', 2016, 7]
 
 # Initiate the app; must include '__name__' since it is used to locate root of project
 # add the meta tagas to improve repsonsiveness on mobile devices
